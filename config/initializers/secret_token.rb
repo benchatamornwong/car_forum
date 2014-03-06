@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-CarForum::Application.config.secret_key_base = '479f4057da21b0e3c8b638ad76fea14cb13667ea434df99ed5a5b31f5c40278574ed083b9f70aeb83693cd458f93bb8a17a7393219569f4428623c58f9d094a0'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+CarForum::Application.config.secret_key_base = secure_token
