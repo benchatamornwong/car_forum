@@ -1,6 +1,32 @@
 <li>
-  <span class="content"><%= post.content %></span>
-  <span class="timestamp">
-    Updated <%= time_ago_in_words(post.updated_at) %> ago.
-  </span>
+  <div style="float: left; margin: 0 3px 0 0; padding: 5px; width: 38px; height: 38px; text-align: center">
+    <div><%= post.votes.size %></div>
+    <div>votes</div>
+  </div>
+  <div style="float: left; margin: 0 3px 0 0; padding: 5px; width: 71px; height: 38px; text-align: center">
+    <div><%= post.comments.count %></div>
+    <div>comments</div>
+  </div>
+  <div>
+    <h3><%= link_to post.title, [post.board, post] %></h3>
+    <div style="float: left;">
+      <%= raw post.tag_list.map { |t| link_to content_tag(:span, t), tag_path(t), class: "label label-primary" }.join(' ') %>
+    </div>
+    <div style="text-align:right; width: auto;">
+      <% if post.created_at != post.updated_at %>
+        <% if (Time.now - post.updated_at)/60/60 < 24 %>
+          <%= time_ago_in_words(post.updated_at) %> ago
+        <% else %>
+          <%= localize(post.latest_edit, format: :short) %>
+        <% end %>
+      <% else %>
+        <% if (Time.now - post.created_at)/60/60 < 24 %>
+          <%= time_ago_in_words(post.created_at) %> ago
+        <% else %>
+          <%= localize(post.created_at, format: :short) %>
+        <% end %>
+      <% end %>
+       <%= link_to post.user.name, post.user %>
+    </div>
+  </div>
 </li>

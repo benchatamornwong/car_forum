@@ -1,10 +1,28 @@
 CarForum::Application.routes.draw do
+  resources :post_attachments
+
   resources :users
-  resources :sessions, only: [:new, :create, :destroy]
+  resources :sessions,  only: [:new, :create, :destroy]
+  resources :boards do
+    resources :posts 
+  end
+  resources :posts do
+    resources :comments
+  end
+
   root  'static_pages#home'
-  match '/signup',  to: 'users#new',            via: 'get'
-  match '/signin',  to: 'sessions#new',         via: 'get'
-  match '/signout', to: 'sessions#destroy',     via: 'delete'
+  match '/signup',    to: 'users#new',            via: 'get'
+  match '/signin',    to: 'sessions#new',         via: 'get'
+  match '/signout',   to: 'sessions#destroy',     via: 'delete'
+  match 'tags/:tag',  to: 'posts#index',          via: 'get' ,  as: :tag
+  match '/search',    to: 'posts#search',         via: 'get'
+  match '/users',     to: 'users#search',         via: 'get'
+  match '/users/:id/admin', to: 'users#admin',    via: 'post'
+  match '/tags',      to: 'static_pages#tags',    via: 'get'
+  match '/posts/:id/upvote', to: 'posts#upvote',  via: 'post'
+  match '/posts/:id/downvote', to: 'posts#downvote', via: 'post'
+  match '/comments/:id/upvote', to: 'comments#upvote', via: 'post'
+  match '/comments/:id/downvote', to: 'comments#downvote', via: 'post'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

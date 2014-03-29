@@ -1,6 +1,15 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
+<%= form_tag url_for(controller: 'users', action: 'search'), method: 'get' do %>
+  <div style="float:left; padding-top:5px; width: 90%;"><%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search' %></div>
+  <div style="float:left;">
+    <%= button_tag(type: "submit", class: "search-btn btn-default") do %>
+    <i class="icon-search"></i>
+    <% end %>
+  </div>
+<% end %>
+
 <%= will_paginate %>
 
 <ul class="users">

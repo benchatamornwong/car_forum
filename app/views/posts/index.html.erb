@@ -1,0 +1,7 @@
+<% provide(:title, params[:tag]) %>
+<h1><%= params[:tag]%></h1>
+<div>
+	<ol class="microposts">
+    <%= render @posts %>
+  </ol>	
+</div>

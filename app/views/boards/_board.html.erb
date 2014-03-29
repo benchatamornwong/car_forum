@@ -1,0 +1,50 @@
+<% if board.id == 1 %>
+	<div class="tab-pane active" id="<%= board.id %>" >
+<% else %>
+	<div class="tab-pane" id="<%= board.id %>">
+<% end %>
+	<% if board.posts.count != 0 %>
+	 	<div>
+		  <div>
+		    <% board.posts.each do |post| %>
+		      <div style="border-bottom: 1px solid #aaa; margin-bottom: 10px;">
+		        <div style="float: left; margin: 0 3px 0 0; padding: 5px; width: 38px; height: 38px; text-align: center">
+		          <div><%= post.votes.size %></div>
+		          <div>votes</div>
+		        </div>
+		        <div style="float: left; margin: 0 3px 0 0; padding: 5px; width: 71px; height: 38px; text-align: center">
+		          <div><%= post.comments.count %></div>
+		          <div>comments</div>
+		        </div>
+		        <div>
+		          <h3><%= link_to post.title, [board, post] %></h3>
+		          <div style="float: left;">
+		          	<%= raw post.tag_list.map { |t| link_to content_tag(:span, t), tag_path(t), class: "label label-primary" }.join(' ') %>
+		          </div>
+		          <div style="text-align:right; width: auto;">
+		          	<% if post.created_at != post.updated_at %>
+		          		<% if (Time.now - post.updated_at)/60/60 < 24 %>
+			            	<%= time_ago_in_words(post.updated_at) %> ago
+			            <% else %>
+			            	<%= localize(post.updated_at, format: :short) %>
+			            <% end %>
+		          	<% else %>
+			            <% if (Time.now - post.created_at)/60/60 < 24 %>
+			            	<%= time_ago_in_words(post.created_at) %> ago
+			            <% else %>
+			            	<%= localize(post.created_at, format: :short) %>
+			            <% end %>
+			          <% end %>
+		             <%= link_to post.user.name, post.user %>
+		          </div>
+		        </div>
+		      </div>
+		    <% end %>
+		  </div>
+		</div>
+		<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+	<% else %>
+		<h3>Board is empty :(</h3>
+		<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+	<% end %>
+</div>

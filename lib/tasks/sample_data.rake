@@ -7,6 +7,10 @@ namespace :db do
                          password_confirmation: "foobar",
                          admin: true)
 
+    Board.create!(title: "General")
+    Board.create!(title: "Pic Post")
+    Board.create!(title: "Market")
+
     99.times do |n|
       name  = Faker::Name.name
       email = "example-#{n+1}@railstutorial.org"
@@ -15,14 +19,14 @@ namespace :db do
                    email: email,
                    password: password,
                    password_confirmation: password)
-    end
 
-    users = User.all(limit: 6)
-    50.times do
-      title = Faker::Lorem.sentence(1)
-      content = Faker::Lorem.sentence(5)
-      status = "active"
-      users.each { |user| user.posts.create!(title: title, content: content, status: status) }
+      Post.create!(title: "BMW #{n+1} Series",
+                    content: "BMW #{n+1} Series",
+                    board_id: 1,
+                    user_id: 1)
+      Comment.create!(content: n,
+                    user_id:1,
+                    post_id:n+1)
     end
   end
 end

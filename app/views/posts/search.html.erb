@@ -1,0 +1,9 @@
+<% provide(:title, params[:search]) %>
+
+<h1>Result for "<%= params[:search] %>"</h1>
+ 
+<ol class="microposts">
+  <%= will_paginate @posts %>
+  <%= render @posts %>
+  <%= will_paginate @posts %>
+</ol>

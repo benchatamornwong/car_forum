@@ -1,0 +1,15 @@
+<% provide(:title, 'New board') %>
+<h1>New board</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@board) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div class="field">
+        <%= f.text_field :title, placeholder: "Title" %>
+      </div>
+      
+      <%= f.submit "Create", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

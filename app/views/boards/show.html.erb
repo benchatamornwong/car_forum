@@ -1,0 +1,15 @@
+<% provide(:title, @board.title) %>
+<%= link_to "All boards", boards_path %> / <%= @board.title %>
+
+<h1 id="page_title"><%= @board.title %></h1>
+<p id="notice"><%= notice %></p>
+
+<div>
+  <%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-large btn-primary" %>
+  <ol class="posts">
+    <%= will_paginate @posts %>
+    <%= render @posts %>
+    <%= will_paginate @posts %>
+  </ol>
+  <%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-large btn-primary" %>
+</div>

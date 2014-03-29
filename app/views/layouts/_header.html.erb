@@ -1,21 +1,33 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "sample app", root_path, id: "logo" %>
+      <div><%= link_to "sample app", root_path, id: "logo" %></div>
+      <div style="float:left; width: 400px; margin-left: 5px;">
+        <%= form_tag url_for(controller: 'posts', action: 'search'), method: 'get' do %>
+          <div style="float:left; padding-top:5px; width: 90%;"><%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search' %></div>
+          <div style="float:left;">
+            <%= button_tag(type: "submit", class: "search-btn btn-default") do %>
+            <i class="icon-search"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Board", '#' %></li>
-          <li><%= link_to "Tags", '#' %></li>
+          <li><%= link_to "Board", boards_path %></li>
+          <li><%= link_to "Tags", tags_path %></li>
           <% if signed_in? %>
-            <li><%= link_to "Profile", current_user %></li>
+            <li><%= link_to current_user.name, current_user %></li>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <%= image_tag("settings.png", size: "20x20", alt: "settings") %>
+              <i class="icon-cog icon-white"></i>
               </a>
               <ul class="dropdown-menu">
-                
-                <li><%= link_to "Settings", '#' %></li>
+                <% if current_user.admin? %>
+                  <li><%= link_to "Users", users_path %></li>
+                <% end %>
+                <li><%= link_to "Settings", edit_user_path(current_user) %></li>
                 <li class="divider"></li>
                 <li>
                   <%= link_to "Sign out", signout_path, method: "delete" %>
