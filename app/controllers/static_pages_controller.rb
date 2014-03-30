@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
 
   def tags
     if params[:tags_search]
-      @tags = Post.tag_counts.where('name LIKE ?', "%#{:tags_search}%")
+      @tags = Post.tag_counts.where('name LIKE ?', "%#{params[:tags_search]}%")
     else
       @tags = Post.tag_counts.all
     end

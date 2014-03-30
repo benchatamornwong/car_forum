@@ -7,6 +7,15 @@
   <% end %>
 </div>
 
-<% if @tags.count != 0 %>
-  <div><%= render @tags %></div>
+<%= form_tag tags_path, method: 'get', id: "tags_search" do %>
+  <div style="position: relative;">
+    <%= button_tag(type: "submit", name: nil, class: "search-btn", style: "position: absolute; right: 0px;") do %>
+      <i class="icon-search"></i>
+    <% end %>
+    <div style="float:left; padding-top:5px; width: 100%;">
+      <%= text_field_tag :tags_search, params[:tags_search], style: 'margin-bottom: 0px;', autocomplete: "off" %>
+    </div>
+  </div>
+  
+ <div id="tags"><%= render 'tags' %></div>
 <% end %>
