@@ -16,7 +16,6 @@ CarForum::Application.routes.draw do
   match '/signout',   to: 'sessions#destroy',     via: 'delete'
   match 'tags/:tag',  to: 'posts#index',          via: 'get' ,  as: :tag
   match '/search',    to: 'posts#search',         via: 'get'
-  match '/users',     to: 'users#search',         via: 'get'
   match '/users/:id/admin', to: 'users#admin',    via: 'post'
   match '/tags',      to: 'static_pages#tags',    via: 'get'
   match '/posts/:id/upvote', to: 'posts#upvote',  via: 'post'

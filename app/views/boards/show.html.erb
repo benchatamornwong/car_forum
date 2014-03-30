@@ -7,7 +7,6 @@
 <div>
   <%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-large btn-primary" %>
   <ol class="posts">
-    <%= will_paginate @posts %>
     <%= render @posts %>
     <%= will_paginate @posts %>
   </ol>

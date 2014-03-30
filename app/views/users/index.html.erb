@@ -1,19 +1,15 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
-<%= form_tag url_for(controller: 'users', action: 'search'), method: 'get' do %>
-  <div style="float:left; padding-top:5px; width: 90%;"><%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search' %></div>
-  <div style="float:left;">
-    <%= button_tag(type: "submit", class: "search-btn btn-default") do %>
-    <i class="icon-search"></i>
+<%= form_tag users_path, method: 'get', id: "users_search" do %>
+  <div style="position: relative;">
+    <%= button_tag(type: "submit", name: nil, class: "search-btn", style: "position: absolute; right: 0px;") do %>
+      <i class="icon-search"></i>
     <% end %>
+    <div style="float:left; padding-top:5px; width: 100%;">
+      <%= text_field_tag :users_search, params[:users_search], style: 'margin-bottom: 0px;', autocomplete: "off" %>
+    </div>
   </div>
+  
+ <div id="users"><%= render 'users' %></div>
 <% end %>
-
-<%= will_paginate %>
-
-<ul class="users">
-  <%= render @users %>
-</ul>
-
-<%= will_paginate %>

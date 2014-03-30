@@ -2,13 +2,13 @@
   <div class="navbar-inner">
     <div class="container">
       <div><%= link_to "sample app", root_path, id: "logo" %></div>
-      <div style="float:left; width: 400px; margin-left: 5px;">
+      <div style="float:left; width: 400px; margin-left: 5px; position: relative;">
         <%= form_tag url_for(controller: 'posts', action: 'search'), method: 'get' do %>
-          <div style="float:left; padding-top:5px; width: 90%;"><%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search' %></div>
-          <div style="float:left;">
-            <%= button_tag(type: "submit", class: "search-btn btn-default") do %>
-            <i class="icon-search"></i>
-            <% end %>
+          <%= button_tag(type: "submit", class: "search-btn", style: "position: absolute; right: 0px;") do %>
+          <i class="icon-search"></i>
+          <% end %>
+          <div style="float:left; padding-top:5px; width: 100%;">
+            <%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', autocomplete: "off" %>
           </div>
         <% end %>
       </div>

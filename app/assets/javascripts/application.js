@@ -15,3 +15,18 @@
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
+
+$(function () {
+  $('#users .pagination a').on('click', 
+    function () {
+      $.getScript(this.href);
+      return false;
+    }
+  );
+  
+  $('#users_search input').keyup(function () {
+    $.get($('#users_search').attr('action'),
+      $('#users_search').serialize(), null, 'script');
+    return false;
+  });
+})

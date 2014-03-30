@@ -4,8 +4,8 @@
 <div class="row">
   <div class="span6 offset3">
     <% if @post_attachments.count != 0 %>
-      <div class="container container-carousel">  
-        <div class="carousel slide" id="carousel-featured" style="width: 460px;">
+      <div class="container container-carousel" style="width: 460px;">  
+        <div class="carousel slide" id="carousel-featured">
           <ol class="carousel-indicators">
             <% @post_attachments.count.times do |n| %>
               <% if n == 0 %>
@@ -18,7 +18,7 @@
           <% if @post_attachments.count <= 1 %>
             <div class="carousel-inner">
               <div class="item active" align="center">
-                <%= image_tag @post_attachments.first.avatar_url %>
+                <%= image_tag @post_attachments.first.avatar_url, style: "height: 300px;" %>
                 <div class="carousel-caption">
                   <%= link_to "delete", @post_attachments.first, method: :delete,
                                       data: { confirm: "You sure?" } %>
@@ -28,7 +28,7 @@
           <% else %>
             <div class="carousel-inner">
               <div class="item active" align="center">
-                <%= image_tag @post_attachments.first.avatar_url %>
+                <%= image_tag @post_attachments.first.avatar_url, style: "height: 300px;" %>
                 <div class="carousel-caption">
                   <%= link_to "delete", @post_attachments.first, method: :delete,
                                       data: { confirm: "You sure?" } %>
@@ -36,7 +36,7 @@
               </div>
               <% (@post_attachments.count-1).times do |n| %>
                 <div class="item" align="center">
-                  <%= image_tag @post_attachments[n+1].avatar_url %>
+                  <%= image_tag @post_attachments[n+1].avatar_url, style: "height: 300px;" %>
                   <div class="carousel-caption">
                     <%= link_to "delete", @post_attachments[n+1], method: :delete,
                                       data: { confirm: "You sure?" } %>

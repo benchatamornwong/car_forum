@@ -1,0 +1,17 @@
+<div class="users">
+	<% for user in @users %>
+  	<li>
+			<div style="float:left; width: 700px">
+				<%= image_tag user.avatar_url, width: 52, height: 52 %>
+			  <%= link_to user.name, user %>
+			</div>
+			<div style="text-align: right; width: auto">
+				<% if current_user.admin? && !current_user?(user) %>
+				<%= link_to 'Delete', user, method: :delete,
+			                      data: { confirm: "You sure?" }, class: "btn btn-danger" %>
+			  <% end %>
+			</div>
+		</li>
+  <% end %>
+</div>
+<%= will_paginate @users %>
