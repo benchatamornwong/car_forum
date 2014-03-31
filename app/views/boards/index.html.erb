@@ -13,7 +13,7 @@
 			</li>
 		<% end %>
 	<% end %>
-	<% if current_user.admin? %>
+	<% if current_user != nil && current_user.admin? %>
 		<li>
 			<a href="#newboard" data-toggle="tab"><h3>⋯</h3></a>
 		</li>
@@ -27,7 +27,9 @@
 			<div class="tab-pane" id="<%= board.id %>">
 		<% end %>
 			<% if board.posts.count != 0 %>
-				<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+				<% if current_user != nil %>
+					<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+				<% end %>
 			 	<div>
 				  <ol class="posts">
 				  	<% board.posts.take(30).each do |post| %>
@@ -73,14 +75,18 @@
 						<% end %>
 				  </ol>
 				</div>
-				<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+				<% if current_user != nil %>
+					<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+				<% end %>
 			<% else %>
 				<h3>Board is empty :(</h3>
-				<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+				<% if current_user != nil %>
+					<%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+				<% end %>
 			<% end %>
 		</div>
 	<% end %>
-	<% if current_user.admin? %>
+	<% if current_user != nil && current_user.admin? %>
 		<div class="tab-pane" id="newboard">
 			<ol class="posts">
 				<% @boards.each do |board| %>
@@ -90,7 +96,7 @@
 							<%= link_to 'edit', edit_board_path(board), class: "btn btn-warning" %>
 							<%= link_to 'delete', board, method: :delete,
                                       data: { confirm: "You sure?" }, class: "btn btn-danger" %>
-          	</div>
+        		</div>
 					</li>
 				<% end %>
 			</ol>

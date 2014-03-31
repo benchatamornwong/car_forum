@@ -5,10 +5,14 @@
 <p id="notice"><%= notice %></p>
 
 <div>
-  <%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-large btn-primary" %>
+  <% if current_user != nil %>
+		<%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-primary" %>
+	<% end %>
   <ol class="posts">
     <%= render @posts %>
     <%= will_paginate @posts %>
   </ol>
-  <%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-large btn-primary" %>
+  <% if current_user != nil %>
+		<%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-primary" %>
+	<% end %>
 </div>

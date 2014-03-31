@@ -87,7 +87,21 @@ class PostsController < ApplicationController
 
   def downvote
     @post = Post.find(params[:id])
-    if @post.downvote_from current_user
+    if @post.disliked_by current_user
+      redirect_to :back
+    end
+  end
+
+  def unupvote
+    @post = Post.find(params[:id])
+    if @post.unliked_by current_user
+      redirect_to :back
+    end
+  end
+
+  def undownvote
+    @post = Post.find(params[:id])
+    if @post.undisliked_by current_user
       redirect_to :back
     end
   end

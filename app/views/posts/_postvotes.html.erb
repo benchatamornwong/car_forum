@@ -1,0 +1,29 @@
+<% if (current_user.voted_as_when_voted_for @post) != true %>
+	<%= form_tag url_for(controller: "posts", action: "upvote"), method: "post", remote: true, class: "vote-btn" do %>
+	  <%= button_tag '', class: "btn btn-default" do %>
+	  <i class="icon-plus"></i>
+	  <% end %>
+	<% end %>
+<% else %>
+	<%= form_tag url_for(controller: "posts", action: "unupvote"), method: "post", remote: true, class: "vote-btn" do %>
+	  <%= button_tag '', class: "btn btn-primary" do %>
+	  <i class="icon-plus icon-white"></i>
+	  <% end %>
+	<% end %>
+<% end %>
+
+<span style="font-family: tahoma; font-size: 24px;"><%= @post.upvotes.size-@post.downvotes.size %></span>
+
+<% if (current_user.voted_as_when_voted_for @post) != false %>
+	<%= form_tag url_for(controller: "posts", action: "downvote"), method: "post", remote: true, class: "vote-btn" do %>
+	  <%= button_tag '', class: "btn btn-default" do %>
+	  <i class="icon-minus"></i>
+	  <% end %>
+	<% end %>
+<% else %>
+	<%= form_tag url_for(controller: "posts", action: "undownvote"), method: "post", remote: true, class: "vote-btn" do %>
+	  <%= button_tag '', class: "btn btn-primary" do %>
+	  <i class="icon-minus icon-white"></i>
+	  <% end %>
+	<% end %>
+<% end %>

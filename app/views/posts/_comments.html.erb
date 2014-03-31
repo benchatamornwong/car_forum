@@ -1,0 +1,76 @@
+<% post_comments.each do |comment| %>
+<div class="comment">
+  <table>
+    <tr>
+      <td style="width:60px; vertical-align: top; text-align: center;">
+        <% if current_user != nil %>
+          <% if (current_user.voted_as_when_voted_for comment) != true %>
+            <%= form_tag url_for(controller: "comments", action: "upvote", id: comment.id), method: "post", remote: true, class: "vote-btn" do %>
+              <%= button_tag '', class: "btn btn-default" do %>
+              <i class="icon-plus"></i>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= form_tag url_for(controller: "comments", action: "unupvote", id: comment.id), method: "post", remote: true, class: "vote-btn" do %>
+              <%= button_tag '', class: "btn btn-primary" do %>
+              <i class="icon-plus icon-white"></i>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <span style="font-family: tahoma; font-size: 24px;"><%= comment.upvotes.size-comment.downvotes.size %></span>
+
+          <% if (current_user.voted_as_when_voted_for comment) != false %>
+            <%= form_tag url_for(controller: "comments", action: "downvote", id: comment.id), method: "post", remote: true, class: "vote-btn" do %>
+              <%= button_tag '', class: "btn btn-default" do %>
+              <i class="icon-minus"></i>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= form_tag url_for(controller: "comments", action: "undownvote", id: comment.id), method: "post", remote: true, class: "vote-btn" do %>
+              <%= button_tag '', class: "btn btn-primary" do %>
+              <i class="icon-minus icon-white"></i>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <div>
+          <%= comment.content %>
+        </div>
+        <table>
+          <tr>
+            <td>
+              <% if current_user != nil && (current_user.admin? || comment.user == current_user) %>
+                <%= link_to "delete", [@post, comment], method: :delete,
+                                            data: { confirm: "You sure?" } %>
+              <% end %>
+            </td>
+            <td align="right" style="width:200px; text-align:left;">
+              <% if comment.created_at != comment.updated_at %>
+                updated <%= time_ago_in_words(comment.updated_at) %> ago
+                <% if (Time.now - @post.created_at)/60/60 < 24 %>
+                  updated <%= time_ago_in_words(comment.updated_at) %> ago
+                <% else %>
+                  updated <%= localize(comment.updated_at, format: :short) %>
+                <% end %>
+              <% end %>
+            </td>
+            <td style="width:200px;">
+              <div>
+                <% if (Time.now - @post.created_at)/60/60 < 24 %>
+                  created <%= time_ago_in_words(comment.created_at) %> ago
+                <% else %>
+                  created <%= localize(comment.created_at, format: :short) %>
+                <% end %>
+              </div>
+              <div><%= image_tag comment.user.avatar_url, width: 35, height: 35 %><%= link_to comment.user.name, comment.user %></div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+<% end %>

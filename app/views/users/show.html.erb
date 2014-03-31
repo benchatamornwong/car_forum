@@ -8,18 +8,20 @@
       <%= image_tag @user.avatar_url, width: 100, height: 100 %>
       <div><%= @user.email %></div>
       <% if current_user == @user %>
-        <div><%= link_to "Edit profile", edit_user_path(current_user) %></div>
+        <div><%= link_to "Edit", edit_user_path(current_user), class: "btn btn-default" %></div>
       <% end %>
-      <% if current_user.admin && @user!=current_user %>
+      <% if current_user.admin? && !current_user?(@user) %>
         <div>
+          <%= link_to 'Delete', @user, method: :delete,
+                            data: { confirm: "You sure?" }, class: "btn btn-danger", style: "float: left; margin-right: 5px;" %>
           <%= form_tag url_for(controller: "users", action: "admin"), method: "post" do %>
             <% if @user.admin %>
-              <%= button_tag(type: "submit", class: "btn btn-danger") do %>
-                remove admin
+              <%= button_tag(type: "submit", class: "btn btn-danger", style: "float: left") do %>
+                Remove admin
               <% end %>
             <% else %>
-              <%= button_tag(type: "submit", class: "btn btn-default") do %>
-                make admin
+              <%= button_tag(type: "submit", class: "btn btn-default", style: "float: left") do %>
+                Make admin
               <% end %>
             <% end %>
           <% end %>
@@ -42,7 +44,7 @@
               <h3>Posts (<%= @user.posts.count %>)</h3>
             <% end %>
             <ol class="microposts">  
-              <% (@user.posts).each do |post| %>
+              <% @posts.each do |post| %>
                 <li>
                   <table>
                     <tr>
@@ -85,6 +87,7 @@
                 </li>
               <% end %>
             </ol>
+            <%= will_paginate @posts, :param_name => 'post_page' %>
           <% end %>
         </div>
         <div class="tab-pane" id="two">
@@ -95,7 +98,7 @@
               <h3>Comments (<%= @user.comments.count %>)</h3>
             <% end %>
             <ol class="microposts">
-              <% @user.comments.each do |comment| %>
+              <% @comments.each do |comment| %>
                 <li>
                   <table>
                     <tr>
@@ -137,6 +140,7 @@
                 </li>
               <% end %>
             </ol>
+            <%= will_paginate @comments, :param_name => 'comment_page' %>
           <% end %>
         </div>
        </div>

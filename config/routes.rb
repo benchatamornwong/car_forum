@@ -20,8 +20,12 @@ CarForum::Application.routes.draw do
   match '/tags',      to: 'static_pages#tags',    via: 'get'
   match '/posts/:id/upvote', to: 'posts#upvote',  via: 'post'
   match '/posts/:id/downvote', to: 'posts#downvote', via: 'post'
+  match '/posts/:id/unupvote', to: 'posts#unupvote',  via: 'post'
+  match '/posts/:id/undownvote', to: 'posts#undownvote', via: 'post'
   match '/comments/:id/upvote', to: 'comments#upvote', via: 'post'
   match '/comments/:id/downvote', to: 'comments#downvote', via: 'post'
+  match '/comments/:id/unupvote', to: 'comments#unupvote', via: 'post'
+  match '/comments/:id/undownvote', to: 'comments#undownvote', via: 'post'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

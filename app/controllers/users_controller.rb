@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def index
     if params[:users_search]
-      @users = User.order("name").paginate(page: params[:page]).search(params[:users_search])
+      @users = User.search(params[:users_search]).order("name").paginate(page: params[:page])
     else
       @users = User.order("name").paginate(page: params[:page])
     end
@@ -13,8 +13,8 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
-    @posts = @user.posts.paginate(page: params[:page])
-    @comments = @user.comments.page(params[:page]).order('updated_at DESC')
+    @posts = @user.posts.paginate(page: params[:post_page], per_page: 10)
+    @comments = @user.comments.paginate(page: params[:comment_page], per_page: 10).order('updated_at DESC')
   end
 
   def new

@@ -8,11 +8,15 @@ class CommentsController < ApplicationController
   def create
   	@comment = current_user.comments.build(comment_params)
     @post = Post.find(params[:post_id])
+    @comments = @post.comments
     @comment.post = @post
   	if current_user && @comment.save
       @post.update_attributes(updated_at: Time.now)
       flash[:success] = "Comment submitted!"
-      redirect_to board_post_path(@post.board, @post)
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     else
       render 'static_pages/home'
     end
@@ -20,6 +24,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
+    @comments = @comment.post.comments
     @comment.destroy
     flash[:success] = "Comment deleted."
     redirect_to board_post_path(@comment.post.board, @comment.post)
@@ -43,16 +48,48 @@ class CommentsController < ApplicationController
   def upvote
     @comment = Comment.find(params[:id])
     @post = @comment.post
+    @comments = @comment.post.comments
     if @comment.liked_by current_user
-      redirect_to board_post_path(@post.board, @post)
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     end
   end
 
   def downvote
     @comment = Comment.find(params[:id])
     @post = @comment.post
-    if @comment.downvote_from current_user
-      redirect_to board_post_path(@post.board, @post)
+    @comments = @comment.post.comments
+    if @comment.disliked_by current_user
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
+    end
+  end
+
+  def unupvote
+    @comment = Comment.find(params[:id])
+    @post = @comment.post
+    @comments = @comment.post.comments
+    if @comment.unliked_by current_user
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
+    end
+  end
+
+  def undownvote
+    @comment = Comment.find(params[:id])
+    @post = @comment.post
+    @comments = @comment.post.comments
+    if @comment.undisliked_by current_user
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     end
   end
 

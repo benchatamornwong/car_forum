@@ -1,3 +1,5 @@
 <% for tag in @tags %>
-	<div><%= link_to content_tag(:span, tag), tag_path(tag.name), class: "label label-primary" %>x<%= Post.tagged_with(tag, on: :tags).count %></div>
+	<span style="width: 24%; display: inline-block">
+		<%= link_to content_tag(:span, tag), tag_path(tag.name), class: "label label-primary" %> - <%= Post.tagged_with(tag, on: :tags).count %> posts
+	</span>
 <% end %>
