@@ -15,10 +15,10 @@
           </td>
           <td style="width:920px;">
             <div>
-              <div>
+              <div class="post-comment-content">
                 <%= @post.content %>
                 <% if @post_attachments.count != 0 %>
-	                <div class="container container-carousel" style="width: 850px;">  
+	                <div class="container container-carousel" style="width: 750px;">  
 	                  <div class="carousel slide" id="carousel-featured">
 	                    <ol class="carousel-indicators">
 	                      <% @post_attachments.count.times do |n| %>
@@ -32,17 +32,17 @@
 	                    <% if @post_attachments.count <= 1 %>
 	                      <div class="carousel-inner">
 	                        <div class="item active" align="center">
-	                          <%= image_tag @post_attachments.first.avatar_url, style: "560px" %>
+	                          <%= image_tag @post_attachments.first.avatar_url, style: "height: 500px" %>
 	                        </div>
 	                      </div>
 	                    <% else %>
 	                      <div class="carousel-inner">
 	                        <div class="item active" align="center">
-	                          <%= image_tag @post_attachments.first.avatar_url, style: "560px" %>
+	                          <%= image_tag @post_attachments.first.avatar_url, style: "height: 500px" %>
 	                        </div>
 	                        <% (@post_attachments.count-1).times do |n| %>
 	                          <div class="item" align="center">
-	                            <%= image_tag @post_attachments[n+1].avatar_url, style: "560px" %>
+	                            <%= image_tag @post_attachments[n+1].avatar_url, style: "height: 500px" %>
 	                          </div>
 	                        <% end %> 
 	                      </div>             
@@ -58,14 +58,14 @@
               </div>
               <table>
                 <tr>
-                  <td style="vertical-align:top;">
+                  <td class="options-block">
                     <% if current_user != nil && (current_user.admin? || @post.user == current_user) %>
                       <%= link_to "edit", edit_board_post_path(@post.board,@post) %>
                        | <%= link_to "delete", @post, method: :delete,
                                       data: { confirm: "You sure?" } %>
                     <% end %>
                   </td>
-                  <td align="right" style="width:200px; text-align:left; vertical-align:top;">
+                  <td align="right" class="edited-block">
                     <% if @post.created_at != @post.updated_at %>
                       <% if (Time.now - @post.updated_at)/60/60 < 24 %>
                         edited <%= time_ago_in_words(@post.latest_edit) %> ago
@@ -74,7 +74,8 @@
                       <% end %>
                     <% end %>
                   </td>
-                  <td style="width:200px;">
+                  <td class="created-block">
+                    <div><%= image_tag @post.user.avatar_url, width: 35, height: 35 %><%= link_to @post.user.name, @post.user %></div>
                     <div>
                       <% if (Time.now - @post.created_at)/60/60 < 24 %>
                         created <%= time_ago_in_words(@post.created_at) %> ago
@@ -82,7 +83,6 @@
                         created <%= localize(@post.created_at, format: :short) %>
                       <% end %>
                     </div>
-                    <div><%= image_tag @post.user.avatar_url, width: 35, height: 35 %><%= link_to @post.user.name, @post.user %></div>
                   </td>
                 </tr>
               </table>
@@ -98,7 +98,7 @@
           
           <div>
           <%= will_paginate @comments %>
-            <div id="comment"><%= render 'comments', post_comments: @comments %></div>
+            <ul id="comment" class="comments"><%= render 'comments', post_comments: @comments %></ul>
           <%= will_paginate @comments %>
           </div>
           
@@ -114,7 +114,7 @@
             <div class="field">
               <%= f.text_area :content %>
             </div>
-            <%= f.submit "Add comment", class: "btn btn-large btn-primary" %>
+            <%= f.submit "Add comment", class: "btn btn-primary" %>
           <% end %>
         </div>
       </div>

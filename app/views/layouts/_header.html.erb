@@ -1,7 +1,11 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <div><%= link_to "sample app", root_path, id: "logo" %></div>
+      <div>
+        <%= link_to root_path, id: "logo" do %>
+        <i>AUTOBOARD</i> <img src="/assets/wheel_icon.png" alt="settings" width="28" height="28" ) %>
+        <% end %>
+      </div>
       <div style="float:left; width: 400px; margin-left: 5px; position: relative;">
         <%= form_tag url_for(controller: 'posts', action: 'search'), method: 'get' do %>
           <%= button_tag(type: "submit", class: "search-btn", style: "position: absolute; right: 0px;") do %>
@@ -21,7 +25,7 @@
             <li><%= link_to current_user.name, current_user %></li>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="icon-cog icon-white"></i>
+              <%= image_tag("settings.png", alt: "settings", width: 13, height: 13 ) %>
               </a>
               <ul class="dropdown-menu">
                 <% if current_user.admin? %>

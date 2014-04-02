@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     @board = @post.board
     @post.destroy
     flash[:success] = "Post deleted."
-    redirect_to boards_path
+    redirect_to :back
   end
 
   def update

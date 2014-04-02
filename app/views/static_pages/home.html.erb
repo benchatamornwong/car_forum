@@ -1,25 +1,116 @@
 <% if signed_in? %>
-  <div class="row">
-    <aside class="span4">
-      <section>
-        <%= render 'shared/user_info' %>
-      </section>
-      <section>
-        <%= render 'shared/post_form' %>
-      </section>
-    </aside>
+  <h1>Boards</h1>
+
+  <ul class="nav nav-tabs">
+    <% @boards.each do |board| %>
+      <% if board.id == 1 %>
+        <li class="active">
+          <a href="#<%= board.id %>" data-toggle="tab"><h3><%= board.title %></h3></a>
+        </li>
+      <% else %>
+        <li>
+          <a href="#<%= board.id %>" data-toggle="tab"><h3><%= board.title %></h3></a>
+        </li>
+      <% end %>
+    <% end %>
+    <% if current_user.admin? %>
+      <li>
+        <a href="#newboard" data-toggle="tab"><h3>⋯</h3></a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="tab-content">
+    <% @boards.each do |board| %>
+      <% if board.id == 1 %>
+        <div class="tab-pane active" id="<%= board.id %>" >
+      <% else %>
+        <div class="tab-pane" id="<%= board.id %>">
+      <% end %>
+        <% if board.posts.count != 0 %>
+          <% if signed_in? %>
+            <%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+          <% end %>
+          <div>
+            <ol class="posts">
+              <% board.posts.take(30).each do |post| %>
+                <li>
+                  <div style="float: left; margin: 0 3px 0 0; padding: 5px; width: 38px; height: 38px; text-align: center">
+                    <div><%= post.votes.size %></div>
+                    <div>votes</div>
+                  </div>
+                  <div style="float: left; margin: 0 3px 0 0; padding: 5px; width: 71px; height: 38px; text-align: center">
+                    <div><%= post.comments.count %></div>
+                    <div>comments</div>
+                  </div>
+                  <div>
+                    <h3><%= link_to truncate(post.title, :length => 35, :separator => ' '), [post.board, post] %></h3>
+                    <div style="float: left;">
+                      <%= raw post.tag_list.map { |t| link_to content_tag(:span, t), tag_path(t), class: "label label-primary" }.join(' ') %>
+                    </div>
+                    <div style="text-align:right; width: auto;">
+                      <% if post.created_at != post.updated_at %>
+                        <% if (Time.now - post.updated_at)/60/60 < 24 %>
+                          <%= time_ago_in_words(post.updated_at) %> ago
+                        <% else %>
+                          <%= localize(post.latest_edit, format: :short) %>
+                        <% end %>
+                      <% else %>
+                        <% if (Time.now - post.created_at)/60/60 < 24 %>
+                          <%= time_ago_in_words(post.created_at) %> ago
+                        <% else %>
+                          <%= localize(post.created_at, format: :short) %>
+                        <% end %>
+                      <% end %>
+                       <%= link_to post.user.name, post.user %>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+              <% if board.posts.count > 30 %>
+                <li>
+                  <%= link_to board do %>
+                    <div class="btn-show-more">Show more</div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ol>
+          </div>
+          <% if signed_in? %>
+            <%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+          <% end %>
+        <% else %>
+          <h3>Board is empty :(</h3>
+          <% if signed_in? %>
+            <%= link_to 'Create Post', new_board_post_path(board), class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if current_user.admin? %>
+      <div class="tab-pane" id="newboard">
+        <ul class="boards">
+          <% @boards.each do |board| %>
+            <li>
+              <div style="float:left; width: 700px"><h3><%= board.title %></h3></div>
+              <div style="text-align: right; width: auto">
+                <%= link_to 'edit', edit_board_path(board), class: "btn btn-warning" %>
+                <%= link_to 'delete', board, method: :delete,
+                                        data: { confirm: "You sure?" }, class: "btn btn-danger" %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+        <%= link_to 'Add Board', new_board_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
 <% else %>
   <div class="center hero-unit">
     <h1>Welcome to the MyCar</h1>
 
-    <h2>
-      This is the home page for the
-      <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
-      sample application.
-    </h2>
+    <h2>forum for car lovers</h2>
 
     <%= link_to "Sign up now!", signup_path,
-                                class: "btn btn-large btn-primary" %>
+                                class: "btn btn-primary" %>
   </div>
 <% end %>

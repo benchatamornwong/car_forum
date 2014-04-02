@@ -17,7 +17,7 @@ class BoardsController < ApplicationController
     @board = Board.new(board_params)
     if @board.save
       flash[:success] = "Board created!"
-      redirect_to boards_path
+      redirect_to :back
     else
       render 'new'
     end
@@ -31,7 +31,7 @@ class BoardsController < ApplicationController
     @board = Board.find(params[:id])
     if @board.update_attributes(board_params)
       flash[:success] = "Board updated"
-      redirect_to boards_path
+      redirect_to :back
     else
       render 'edit'
     end
@@ -40,7 +40,7 @@ class BoardsController < ApplicationController
   def destroy
     Board.find(params[:id]).destroy
     flash[:success] = "Board deleted."
-    redirect_to boards_path
+    redirect_to :back
   end
 
   private

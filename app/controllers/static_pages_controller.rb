@@ -1,6 +1,8 @@
 class StaticPagesController < ApplicationController
   def home
-  	@post = current_user.posts.build if signed_in?
+    if signed_in?
+    	@boards = Board.paginate(page: params[:page])
+    end
   end
 
   def tags

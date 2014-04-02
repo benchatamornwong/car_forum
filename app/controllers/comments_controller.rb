@@ -35,6 +35,7 @@ class CommentsController < ApplicationController
   end
 
   def update
+    @comment = Comment.find(params[:id])
     @post = @comment.post
     if @comment.update_attributes(comment_params)
       @post.update_attributes(latest_interaction: Time.now)

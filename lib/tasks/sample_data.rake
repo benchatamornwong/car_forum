@@ -11,22 +11,51 @@ namespace :db do
     Board.create!(title: "Pic Post")
     Board.create!(title: "Market")
 
-    99.times do |n|
-      name  = Faker::Name.name
-      email = "example-#{n+1}@railstutorial.org"
-      password  = "password"
-      User.create!(name: name,
-                   email: email,
-                   password: password,
-                   password_confirmation: password)
+    password  = "password"
 
-      Post.create!(title: "BMW #{n+1} Series",
-                    content: "BMW #{n+1} Series",
-                    board_id: 1,
-                    user_id: 1)
-      Comment.create!(content: n,
-                    user_id:1,
-                    post_id:n+1)
-    end
+    User.create!(name: "Keepok",
+                  email: "keepok@keepok.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Ou PotFace",
+                  email: "outhemaster@gmail.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Opal RubyKing",
+                  email: "opal@gmail.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Sun RoundFace",
+                  email: "sun@gmail.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Tee 2D",
+                  email: "tee@gmail.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Tii Winit",
+                  email: "tii@gmail.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Kelly TheWhale",
+                  email: "kelly@ocean.com",
+                  password: password,
+                  password_confirmation: password)
+    
+    User.create!(name: "Jing CSSMaster",
+                  email: "jing@gmail.com",
+                  password: password,
+                  password_confirmation: password)
+
+    User.create!(name: "Mint TheMammoth",
+                  email: "mint@gmail.com",
+                  password: password,
+                  password_confirmation: password)
   end
 end

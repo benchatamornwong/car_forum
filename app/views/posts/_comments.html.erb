@@ -1,5 +1,5 @@
 <% post_comments.each do |comment| %>
-<div class="comment">
+<li>
   <table>
     <tr>
       <td style="width:60px; vertical-align: top; text-align: center;">
@@ -36,28 +36,29 @@
         <% end %>
       </td>
       <td>
-        <div>
+        <div class="post-comment-content">
           <%= comment.content %>
         </div>
         <table>
           <tr>
-            <td>
+            <td class="options-block">
               <% if current_user != nil && (current_user.admin? || comment.user == current_user) %>
-                <%= link_to "delete", [@post, comment], method: :delete,
+                <a href="#commentedit<%= comment.id %>" data-toggle="modal">edit</a>
+                 | <%= link_to "delete", [@post, comment], method: :delete,
                                             data: { confirm: "You sure?" } %>
               <% end %>
             </td>
-            <td align="right" style="width:200px; text-align:left;">
+            <td align="right" class="edited-block">
               <% if comment.created_at != comment.updated_at %>
-                updated <%= time_ago_in_words(comment.updated_at) %> ago
                 <% if (Time.now - @post.created_at)/60/60 < 24 %>
-                  updated <%= time_ago_in_words(comment.updated_at) %> ago
+                  edited <%= time_ago_in_words(comment.updated_at) %> ago
                 <% else %>
-                  updated <%= localize(comment.updated_at, format: :short) %>
+                  edited <%= localize(comment.updated_at, format: :short) %>
                 <% end %>
               <% end %>
             </td>
-            <td style="width:200px;">
+            <td class="created-block">
+              <div><%= image_tag comment.user.avatar_url, width: 35, height: 35 %><%= link_to comment.user.name, comment.user %></div>
               <div>
                 <% if (Time.now - @post.created_at)/60/60 < 24 %>
                   created <%= time_ago_in_words(comment.created_at) %> ago
@@ -65,12 +66,31 @@
                   created <%= localize(comment.created_at, format: :short) %>
                 <% end %>
               </div>
-              <div><%= image_tag comment.user.avatar_url, width: 35, height: 35 %><%= link_to comment.user.name, comment.user %></div>
             </td>
           </tr>
         </table>
       </td>
     </tr>
+    <div id="commentedit<%= comment.id %>" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Edit comment</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          <%= form_for([@post, comment]) do |f| %>
+            <%= render 'shared/error_messages', object: f.object %>
+            <div class="field">
+              <%= f.text_area :content %>
+            </div>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <%= f.submit "Save", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
   </table>
-</div>
+</li>
 <% end %>
