@@ -52,13 +52,13 @@
                         <% if (Time.now - post.updated_at)/60/60 < 24 %>
                           <%= time_ago_in_words(post.updated_at) %> ago
                         <% else %>
-                          <%= localize(post.latest_edit, format: :short) %>
+                          <%= localize(post.updated_at.localtime, format: :short) %>
                         <% end %>
                       <% else %>
                         <% if (Time.now - post.created_at)/60/60 < 24 %>
                           <%= time_ago_in_words(post.created_at) %> ago
                         <% else %>
-                          <%= localize(post.created_at, format: :short) %>
+                          <%= localize(post.created_at.localtime, format: :short) %>
                         <% end %>
                       <% end %>
                        <%= link_to post.user.name, post.user %>
@@ -106,7 +106,7 @@
   </div>
 <% else %>
   <div class="center hero-unit">
-    <h1>Welcome to the MyCar</h1>
+    <h1>Welcome to the AutoBoard</h1>
 
     <h2>forum for car lovers</h2>
 

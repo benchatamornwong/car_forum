@@ -42,9 +42,9 @@
         <table>
           <tr>
             <td class="options-block">
-              <% if current_user != nil && (current_user.admin? || comment.user == current_user) %>
+              <% if signed_in? && (current_user.admin? || comment.user == current_user) %>
                 <a href="#commentedit<%= comment.id %>" data-toggle="modal">edit</a>
-                 | <%= link_to "delete", [@post, comment], method: :delete,
+                 | <%= link_to "delete", [@post,comment], method: :delete, remote: true,
                                             data: { confirm: "You sure?" } %>
               <% end %>
             </td>
@@ -53,7 +53,7 @@
                 <% if (Time.now - @post.created_at)/60/60 < 24 %>
                   edited <%= time_ago_in_words(comment.updated_at) %> ago
                 <% else %>
-                  edited <%= localize(comment.updated_at, format: :short) %>
+                  edited <%= localize(comment.updated_at.localtime, format: :short) %>
                 <% end %>
               <% end %>
             </td>
@@ -63,7 +63,7 @@
                 <% if (Time.now - @post.created_at)/60/60 < 24 %>
                   created <%= time_ago_in_words(comment.created_at) %> ago
                 <% else %>
-                  created <%= localize(comment.created_at, format: :short) %>
+                  created <%= localize(comment.created_at.localtime, format: :short) %>
                 <% end %>
               </div>
             </td>
@@ -78,7 +78,7 @@
       </div>
       <div class="modal-body">
         <p>
-          <%= form_for([@post, comment]) do |f| %>
+          <%= form_for([@post, comment], remote: true) do |f| %>
             <%= render 'shared/error_messages', object: f.object %>
             <div class="field">
               <%= f.text_area :content %>

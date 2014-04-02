@@ -12,7 +12,6 @@ class CommentsController < ApplicationController
     @comment.post = @post
   	if current_user && @comment.save
       @post.update_attributes(updated_at: Time.now)
-      flash[:success] = "Comment submitted!"
       respond_to do |format|
         format.html { redirect_to :back }
         format.js
@@ -24,10 +23,13 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    @comments = @comment.post.comments
+    @post = Post.find(params[:post_id])
+    @comments = @post.comments
     @comment.destroy
-    flash[:success] = "Comment deleted."
-    redirect_to board_post_path(@comment.post.board, @comment.post)
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
   def show
@@ -37,12 +39,18 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params[:id])
     @post = @comment.post
+    @comments = @post.comments
     if @comment.update_attributes(comment_params)
       @post.update_attributes(latest_interaction: Time.now)
-      flash[:success] = "Comment updated"
-      redirect_to board_post_path(@comment.post.board, @comment.post)
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     else
-      redirect_to board_post_path(@comment.post.board, @comment.post)
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     end
   end
 

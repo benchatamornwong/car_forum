@@ -5,6 +5,14 @@ class StaticPagesController < ApplicationController
     end
   end
 
+  def about
+    
+  end
+
+  def contact
+    
+  end
+
   def tags
     @tag_cloud = Post.tag_counts.all.take(50);
     if params[:tags_search]

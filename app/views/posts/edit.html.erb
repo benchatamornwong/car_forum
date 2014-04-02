@@ -18,7 +18,7 @@
           <% if @post_attachments.count <= 1 %>
             <div class="carousel-inner">
               <div class="item active" align="center">
-                <%= image_tag @post_attachments.first.avatar_url, style: "height: 300px;" %>
+                <%= image_tag @post_attachments.first.avatar_url %>
                 <div class="carousel-caption">
                   <%= link_to "delete", @post_attachments.first, method: :delete,
                                       data: { confirm: "You sure?" } %>
@@ -28,7 +28,7 @@
           <% else %>
             <div class="carousel-inner">
               <div class="item active" align="center">
-                <%= image_tag @post_attachments.first.avatar_url, style: "height: 300px;" %>
+                <%= image_tag @post_attachments.first.avatar_url %>
                 <div class="carousel-caption">
                   <%= link_to "delete", @post_attachments.first, method: :delete,
                                       data: { confirm: "You sure?" } %>
@@ -36,7 +36,7 @@
               </div>
               <% (@post_attachments.count-1).times do |n| %>
                 <div class="item" align="center">
-                  <%= image_tag @post_attachments[n+1].avatar_url, style: "height: 300px;" %>
+                  <%= image_tag @post_attachments[n+1].avatar_url %>
                   <div class="carousel-caption">
                     <%= link_to "delete", @post_attachments[n+1], method: :delete,
                                       data: { confirm: "You sure?" } %>

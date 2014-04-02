@@ -32,7 +32,7 @@
                 <% if (Time.now - @post.created_at)/60/60 < 24 %>
                   updated <%= time_ago_in_words(comment.updated_at) %> ago
                 <% else %>
-                  updated <%= localize(comment.updated_at, format: :short) %>
+                  updated <%= localize(comment.updated_at.localtime, format: :short) %>
                 <% end %>
               <% end %>
             </td>
@@ -41,7 +41,7 @@
                 <% if (Time.now - @post.created_at)/60/60 < 24 %>
                   created <%= time_ago_in_words(comment.created_at) %> ago
                 <% else %>
-                  created <%= localize(comment.created_at, format: :short) %>
+                  created <%= localize(comment.created_at.localtime, format: :short) %>
                 <% end %>
               </div>
               <div><%= image_tag comment.user.avatar_url, width: 35, height: 35 %><%= link_to comment.user.name, comment.user %></div>

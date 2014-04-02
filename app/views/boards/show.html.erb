@@ -5,6 +5,7 @@
 <p id="notice"><%= notice %></p>
 
 <div>
+<% if @posts.count != 0 %>
   <% if signed_in? %>
 		<%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-primary" %>
 	<% end %>
@@ -15,4 +16,10 @@
   <% if signed_in? %>
 		<%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-primary" %>
 	<% end %>
+<% else %>
+  <h3>Board is empty :(</h3>
+  <% if signed_in? %>
+    <%= link_to 'Create Post', new_board_post_path(@board), class: "btn btn-primary" %>
+  <% end %>
+<% end %>
 </div>

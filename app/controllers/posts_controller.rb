@@ -34,7 +34,6 @@ class PostsController < ApplicationController
           @post_attachment = @post.post_attachments.create!(:avatar => a, :post_id => @post.id)
         end
       end
-      flash[:success] = "Post created!"
       redirect_to board_post_path(@board, @post)
     else
       render 'static_pages/home'
@@ -45,8 +44,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @board = @post.board
     @post.destroy
-    flash[:success] = "Post deleted."
-    redirect_to :back
+    redirect_to board_path(@board)
   end
 
   def update
@@ -60,7 +58,6 @@ class PostsController < ApplicationController
           @post_attachment = @post.post_attachments.create!(:avatar => a, :post_id => @post.id)
         end
       end
-      flash[:success] = "Post updated"
       redirect_to board_post_path(@board, @post)
     else
       render 'edit'

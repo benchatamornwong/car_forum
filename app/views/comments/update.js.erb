@@ -1,0 +1,3 @@
+$('.modal').modal('hide');
+$('#comment').html('<%= escape_javascript(render("posts/comments", post_comments: @comments)) %>');
+$('#comment-header').html('<%= escape_javascript(render("posts/comment_header", post_comments: @comments)) %>');
